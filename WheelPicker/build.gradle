@@ -1,16 +1,17 @@
 apply plugin: 'com.android.library'
-
-version = "1.0.3"
-
+apply plugin: 'com.novoda.bintray-release'
+def version = '1.0.3'
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-
+    compileSdkVersion 28
     defaultConfig {
-        minSdkVersion 1
-        targetSdkVersion 23
-        versionCode 4
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 8
         versionName version
+    }
+    lintOptions{
+        abortOnError false
+        checkReleaseBuilds false
     }
     buildTypes {
         release {
@@ -18,4 +19,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+}
+publish {
+    userOrg = 'hellcwu'
+    groupId = 'cn.hellcwu.wheelpicker'
+    artifactId = "WheelPicker"
+    publishVersion = "1.0.3"
+    desc = 'Simple and fantastic wheel view in realistic effect for android.'
+    website = 'https://github.com/hellwu/WheelPicker'
+}
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.2'
 }

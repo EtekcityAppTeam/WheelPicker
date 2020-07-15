@@ -20,7 +20,7 @@ public class WheelCurvedPicker extends WheelCrossPicker {
     private int radius;
     private int degreeSingleDelta;
     private int degreeIndex, degreeUnitDelta;
-
+    private boolean isSelectedTextBold = false;
     public WheelCurvedPicker(Context context) {
         super(context);
     }
@@ -45,6 +45,11 @@ public class WheelCurvedPicker extends WheelCrossPicker {
 
         unitDeltaMin = -unit * (data.size() - itemIndex - 1);
         unitDeltaMax = unit * itemIndex;
+    }
+
+    public void setItemSelectedTextBold(boolean isBlod) {
+        isSelectedTextBold = isBlod;
+        invalidate(rectCurItem);
     }
 
     @Override
@@ -74,6 +79,7 @@ public class WheelCurvedPicker extends WheelCrossPicker {
             canvas.concat(matrixRotate);
             canvas.clipRect(rectCurItem, Region.Op.DIFFERENCE);
             mTextPaint.setColor(textColor);
+            mTextPaint.setFakeBoldText(false);
             mTextPaint.setAlpha(255 - 255 * Math.abs(curUnit) / unitDisplayMax);
             mOrientation.draw(canvas, mTextPaint, data.get(i + itemIndex), space, wheelCenterX,
                     wheelCenterTextY);
@@ -82,6 +88,8 @@ public class WheelCurvedPicker extends WheelCrossPicker {
             canvas.save();
             canvas.clipRect(rectCurItem);
             mTextPaint.setColor(curTextColor);
+            mTextPaint.setFakeBoldText(isSelectedTextBold);
+
             mOrientation.draw(canvas, mTextPaint, data.get(i + itemIndex), space, wheelCenterX,
                     wheelCenterTextY);
             canvas.restore();
