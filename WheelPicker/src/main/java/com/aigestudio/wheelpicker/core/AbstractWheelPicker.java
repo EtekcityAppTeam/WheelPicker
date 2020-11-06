@@ -231,7 +231,12 @@ public abstract class AbstractWheelPicker extends View implements IWheelPicker {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
-        onWheelSelected(itemIndex, data.get(itemIndex));
+        try {
+            onWheelSelected(itemIndex, data.get(itemIndex));
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            onWheelSelected(itemIndex, data.get(0));
+        }
 
         mDrawBound.set(getPaddingLeft(), getPaddingTop(), w - getPaddingRight(),
                 h - getPaddingBottom());

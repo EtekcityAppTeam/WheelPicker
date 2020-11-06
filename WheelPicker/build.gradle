@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply from: "publish-aar.gradle"
+
 def version = '1.0.3'
 android {
     compileSdkVersion 28
@@ -20,15 +21,4 @@ android {
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
-}
-publish {
-    userOrg = 'hellcwu'
-    groupId = 'cn.hellcwu.wheelpicker'
-    artifactId = "WheelPicker"
-    publishVersion = "1.0.3"
-    desc = 'Simple and fantastic wheel view in realistic effect for android.'
-    website = 'https://github.com/hellwu/WheelPicker'
-}
-dependencies {
-    implementation 'com.google.code.gson:gson:2.8.2'
 }

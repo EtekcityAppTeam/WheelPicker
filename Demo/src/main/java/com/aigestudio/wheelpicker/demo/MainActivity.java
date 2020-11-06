@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import java.util.List;
  * @author AigeStudio 2015-12-06
  */
 public class MainActivity extends Activity implements View.OnClickListener {
+    private static final String TAG = "MainActivity";
     private MainDialog dialog;
     private Button btnObtainStraight, btnObtainCurved;
 
@@ -34,6 +36,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private int padding;
     private int textSize;
     private int itemSpace;
+    private Button btn_changeData;
+    WheelCrossPicker curvedPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         itemSpace = getResources().getDimensionPixelSize(R.dimen.ItemSpaceLarge);
 
         WheelCrossPicker straightPicker = (WheelCrossPicker) findViewById(R.id.main_wheel_straight);
+        btn_changeData = findViewById(R.id.main_change_data);
+
         straightPicker.setItemIndex(2);
         straightPicker.setBackgroundColor(0xFFE5DEEB);
         straightPicker.setTextColor(0xFFA7A7DB);
@@ -64,7 +70,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 dataStraight = data;
             }
         });
-        WheelCrossPicker curvedPicker = (WheelCrossPicker) findViewById(R.id.main_wheel_curved);
+        curvedPicker = (WheelCrossPicker) findViewById(R.id.main_wheel_curved);
         curvedPicker.setOnWheelChangeListener(new AbstractWheelPicker.SimpleWheelChangeListener() {
             @Override
             public void onWheelScrollStateChanged(int state) {
@@ -77,7 +83,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onWheelSelected(int index, String data) {
+                Log.i(TAG, "onWheelSelected = index = "+index+", data = "+data);
                 dataCurved = data;
+            }
+
+            @Override
+            public void onWheelScrolling(float deltaX, float deltaY) {
+                super.onWheelScrolling(deltaX, deltaY);
+                Log.i(TAG, "onWheelScrolling() deltaX = "+deltaX+", deltaY = "+deltaY);
             }
         });
 
@@ -85,6 +98,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnObtainStraight.setOnClickListener(this);
         btnObtainCurved = (Button) findViewById(R.id.main_obtain_curved_btn);
         btnObtainCurved.setOnClickListener(this);
+        btn_changeData.setOnClickListener(this);
 
         findViewById(R.id.main_year_btn).setOnClickListener(this);
         findViewById(R.id.main_month_btn).setOnClickListener(this);
@@ -101,6 +115,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         int padding5x = padding * 5;
         switch (v.getId()) {
+            case R.id.main_change_data:
+                ArrayList<String> newData = new ArrayList<>();
+                newData.add("After");
+                newData.add("Before");
+
+                curvedPicker.setItemIndex(1);
+                curvedPicker.setData(newData);
+                curvedPicker.setItemSpace(77);
+                break;
             case R.id.main_obtain_straight_btn:
                 Toast.makeText(this, dataStraight, Toast.LENGTH_SHORT).show();
                 break;
