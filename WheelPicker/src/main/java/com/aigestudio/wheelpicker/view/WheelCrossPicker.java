@@ -118,6 +118,14 @@ public abstract class WheelCrossPicker extends AbstractWheelPicker
     }
 
     @Override
+    public void setItemIndexResetCache(int index) {
+        unitDeltaTotal = 0;
+        itemIndex = index;
+        computeWheelSizes();
+        requestLayout();
+    }
+
+    @Override
     public void run() {
         if (mScroller.isFinished()) {
             onWheelScrollStateChanged(SCROLL_STATE_IDLE);

@@ -40,6 +40,15 @@ public interface IWheelPicker {
      */
     void setItemIndex(int index);
 
+
+    /**
+     * 设置当前居中显示的文本在数据列表中的下标值，清楚
+     *
+     * @param index 下标值
+     *               Index of data in list will display in WheelView center
+     */
+    void setItemIndexResetCache(int index);
+
     /**
      * 设置Item间距
      * Set space of items

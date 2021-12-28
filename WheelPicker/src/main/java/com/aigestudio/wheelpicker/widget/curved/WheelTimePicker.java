@@ -161,6 +161,12 @@ public class WheelTimePicker extends LinearLayout implements IWheelPicker, IDigi
     }
 
     @Override
+    public void setItemIndexResetCache(int index) {
+        pickerHour.setItemIndexResetCache(index);
+        pickerMinute.setItemIndexResetCache(index);
+    }
+
+    @Override
     public void setItemSpace(int space) {
         pickerHour.setItemSpace(space);
         pickerMinute.setItemSpace(space);

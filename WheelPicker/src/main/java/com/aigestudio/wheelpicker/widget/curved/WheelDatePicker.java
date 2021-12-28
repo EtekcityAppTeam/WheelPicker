@@ -181,6 +181,13 @@ public class WheelDatePicker extends LinearLayout implements IWheelPicker {
     }
 
     @Override
+    public void setItemIndexResetCache(int index) {
+        pickerYear.setItemIndexResetCache(index);
+        pickerMonth.setItemIndexResetCache(index);
+        pickerDay.setItemIndexResetCache(index);
+    }
+
+    @Override
     public void setItemSpace(int space) {
         pickerYear.setItemSpace(space);
         pickerMonth.setItemSpace(space);

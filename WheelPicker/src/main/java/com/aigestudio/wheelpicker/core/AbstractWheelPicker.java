@@ -364,6 +364,13 @@ public abstract class AbstractWheelPicker extends View implements IWheelPicker {
     }
 
     @Override
+    public void setItemIndexResetCache(int index) {
+        itemIndex = index;
+        computeWheelSizes();
+        requestLayout();
+    }
+
+    @Override
     public void setItemSpace(int space) {
         itemSpace = space;
         computeWheelSizes();
