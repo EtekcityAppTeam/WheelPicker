@@ -5,6 +5,7 @@ import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Region;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -21,6 +22,7 @@ public class WheelCurvedPicker extends WheelCrossPicker {
     private int degreeSingleDelta;
     private int degreeIndex, degreeUnitDelta;
     private boolean isSelectedTextBold = false;
+    private TypeFace typeFace = TypeFace.MEDIUM;
     public WheelCurvedPicker(Context context) {
         super(context);
     }
@@ -80,6 +82,8 @@ public class WheelCurvedPicker extends WheelCrossPicker {
             canvas.clipRect(rectCurItem, Region.Op.DIFFERENCE);
             mTextPaint.setColor(textColor);
             mTextPaint.setFakeBoldText(false);
+            // 清空属性---当前字体对中文无效，仅加深英文文本
+            mTextPaint.setTypeface(Typeface.DEFAULT);
             mTextPaint.setAlpha(255 - 255 * Math.abs(curUnit) / unitDisplayMax);
             mOrientation.draw(canvas, mTextPaint, data.get(i + itemIndex), space, wheelCenterX,
                     wheelCenterTextY);
@@ -89,7 +93,9 @@ public class WheelCurvedPicker extends WheelCrossPicker {
             canvas.clipRect(rectCurItem);
             mTextPaint.setColor(curTextColor);
             mTextPaint.setFakeBoldText(isSelectedTextBold);
-
+            if (typeFace == TypeFace.MEDIUM) {
+                mTextPaint.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Medium.ttf"));
+            }
             mOrientation.draw(canvas, mTextPaint, data.get(i + itemIndex), space, wheelCenterX,
                     wheelCenterTextY);
             canvas.restore();
@@ -151,5 +157,15 @@ public class WheelCurvedPicker extends WheelCrossPicker {
         SPACE.clear();
         DEPTH.clear();
         mOrientation.clearCache();
+    }
+
+    // 设置选中文本的字体
+    public void setSelectedTextTypeFace(TypeFace typeFace){
+        this.typeFace = typeFace;
+        invalidate(rectCurItem);
+    }
+
+    public enum TypeFace{
+        MEDIUM
     }
 }
